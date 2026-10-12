@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yiming Wang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #effbf3;
+    --card: #ffffff;
+    --ink: #2b2140;
+    --muted: #6b6280;
+    --pink: #22b866;
+    --yellow: #ffc93c;
+    --blue: #3fa7ff;
+    --green: #0f8f6b;
+    --shadow: 0 6px 0 rgba(43, 33, 64, 0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #10241a;
+      --card: #1a3527;
+      --ink: #f6f1ff;
+      --muted: #b8aed6;
+      --shadow: 0 6px 0 rgba(0, 0, 0, 0.35);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Baloo 2", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 32px 16px 64px; }
+
+  /* Hero */
+  .hero { text-align: center; padding: 40px 0 24px; position: relative; }
+  .avatar {
+    width: 120px; height: 120px; margin: 0 auto 16px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--yellow), var(--pink));
+    display: grid; place-items: center;
+    font-size: 64px; box-shadow: var(--shadow);
+    animation: bob 3s ease-in-out infinite;
+  }
+  @keyframes bob { 50% { transform: translateY(-8px) rotate(4deg); } }
+  h1 {
+    font-size: clamp(2.6rem, 9vw, 4.2rem);
+    font-weight: 800; margin: 0; line-height: 1.05;
+  }
+  h1 span { color: var(--pink); }
+  .tagline { color: var(--muted); font-size: 1.25rem; margin: 8px 0 0; }
+
+  /* Stat cards */
+  .stats {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 16px; margin: 32px 0;
+  }
+  .stat {
+    background: var(--card); border-radius: 20px; padding: 20px;
+    text-align: center; box-shadow: var(--shadow);
+    border-top: 6px solid var(--c);
+  }
+  .stat .big { font-size: 2.6rem; font-weight: 800; color: var(--c); line-height: 1.1; }
+  .stat .label { color: var(--muted); font-weight: 500; }
+
+  /* Sections */
+  section {
+    background: var(--card); border-radius: 24px; padding: 24px;
+    margin-top: 24px; box-shadow: var(--shadow);
+  }
+  h2 { margin: 0 0 12px; font-size: 1.7rem; }
+  .faves { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+  .fave {
+    background: var(--bg); border-radius: 16px; padding: 14px;
+    font-weight: 500;
+  }
+  .fave b { display: block; color: var(--muted); font-size: .9rem; font-weight: 500; }
+
+  .game {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    text-decoration: none; color: inherit;
+    background: var(--bg); border-radius: 16px; padding: 16px;
+    transition: transform .15s;
+  }
+  .game:hover { transform: translateY(-3px) rotate(-1deg); }
+  .game .icon { font-size: 44px; }
+  .game .name { font-size: 1.3rem; font-weight: 700; }
+  .game .play {
+    margin-left: auto; background: var(--green); color: #fff;
+    padding: 6px 18px; border-radius: 999px; font-weight: 700;
+  }
+
+  .party { display: none; color: var(--pink); font-weight: 800; font-size: 1.4rem; text-align: center; }
+  .is-birthday .party { display: block; }
+
+  footer { text-align: center; color: var(--muted); margin-top: 40px; }
+
+  .confetti {
+    position: fixed; top: -20px; width: 10px; height: 14px; border-radius: 3px;
+    pointer-events: none; animation: fall linear forwards;
+  }
+  @keyframes fall { to { transform: translateY(110vh) rotate(720deg); } }
+</style>
+</head>
+<body>
+<div class="wrap" id="page">
+
+  <header class="hero">
+    <div class="avatar" id="avatar" title="Click me!">🚀</div>
+    <h1>Hi, I'm <span>Yiming Wang</span>!</h1>
+    <p class="tagline">Welcome to my homepage 👋</p>
+  </header>
+
+  <p class="party">🎉 Today is my birthday! 🎂</p>
+
+  <div class="stats">
+    <div class="stat" style="--c: var(--pink)">
+      <div class="big" id="age">–</div>
+      <div class="label">years old</div>
+    </div>
+    <div class="stat" style="--c: var(--blue)">
+      <div class="big">6/26</div>
+      <div class="label">my birthday 🎂</div>
+    </div>
+    <div class="stat" style="--c: var(--green)">
+      <div class="big" id="countdown">–</div>
+      <div class="label" id="countdown-label">days until my birthday</div>
+    </div>
+  </div>
+
+  <section>
+    <h2>⭐ About me</h2>
+    <p>I was born on June 26, 2017. I like making games and building cool stuff on the computer!</p>
+    <div class="faves">
+      <div class="fave"><b>Favorite color</b>💚 Green</div>
+      <div class="fave"><b>Favorite food</b>🍟 Fries or 🥭 mango</div>
+      <div class="fave"><b>Favorite animal</b>🐍 Ball pythons</div>
+      <div class="fave"><b>When I grow up</b>🎮 Game developer</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>🎮 My games</h2>
+    <a class="game" href="chip-and-jump.html">
+      <span class="icon">⛳</span>
+      <span><span class="name">Chip &amp; Jump</span><br><span style="color:var(--muted)">A golf game!</span></span>
+      <span class="play">Play ▶</span>
+    </a>
+  </section>
+
+  <footer>Made by Yiming Wang · <span id="year"></span></footer>
+</div>
+
+<script>
+  const BIRTH = { year: 2017, month: 6, day: 26 };
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const y = today.getFullYear();
+
+  // Age
+  let age = y - BIRTH.year;
+  const bdayThisYear = new Date(y, BIRTH.month - 1, BIRTH.day);
+  if (today < bdayThisYear) age--;
+  document.getElementById("age").textContent = age;
+
+  // Countdown to next birthday
+  const isBirthday = today.getTime() === bdayThisYear.getTime();
+  let next = today <= bdayThisYear ? bdayThisYear : new Date(y + 1, BIRTH.month - 1, BIRTH.day);
+  const days = Math.round((next - today) / 86400000);
+  if (isBirthday) {
+    document.body.classList.add("is-birthday");
+    document.getElementById("countdown").textContent = "🎉";
+    document.getElementById("countdown-label").textContent = "it's today!";
+    setTimeout(confetti, 400);
+  } else {
+    document.getElementById("countdown").textContent = days;
+    document.getElementById("countdown-label").textContent =
+      `day${days === 1 ? "" : "s"} until I turn ${age + 1}`;
+  }
+
+  document.getElementById("year").textContent = y;
+
+  // Confetti
+  function confetti() {
+    const colors = ["#22b866", "#7be495", "#ffc93c", "#3fa7ff", "#33c58a", "#a970ff"];
+    for (let i = 0; i < 80; i++) {
+      const c = document.createElement("div");
+      c.className = "confetti";
+      c.style.left = Math.random() * 100 + "vw";
+      c.style.background = colors[i % colors.length];
+      c.style.animationDuration = 2 + Math.random() * 2 + "s";
+      c.style.animationDelay = Math.random() * 0.6 + "s";
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 5000);
+    }
+  }
+  document.getElementById("avatar").addEventListener("click", confetti);
+</script>
+</body>
+</html>
