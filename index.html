@@ -221,6 +221,21 @@
     white-space: nowrap;
   }
   .game:hover .play { transform: translateY(2px); box-shadow: 0 4px 0 #c99400; }
+  .game.night {
+    background:
+      radial-gradient(circle at 80% 22%, #fff6c8 0 18px, transparent 19px),
+      radial-gradient(circle at 20% 20%, #fff 0 1px, transparent 2px),
+      radial-gradient(circle at 45% 12%, #fff 0 1.5px, transparent 2.5px),
+      radial-gradient(circle at 62% 35%, #fff 0 1px, transparent 2px),
+      radial-gradient(ellipse 60% 40% at 82% 118%, #23325e 0 98%, transparent),
+      radial-gradient(ellipse 75% 45% at 12% 122%, #1a2648 0 98%, transparent),
+      linear-gradient(180deg, #0d1330, #2a2a5e);
+    margin-top: 16px;
+  }
+  .game.night .flag { right: 30%; top: 40px; font-size: 50px; animation: glow 2.4s ease-in-out infinite; filter: drop-shadow(0 0 14px #ffb347); }
+  @keyframes glow { 50% { transform: translateY(-6px); filter: drop-shadow(0 0 24px #ffcf6e); } }
+  .firefly { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: #d9ff6e; box-shadow: 0 0 10px 3px #c8ff3a; animation: fly 5s ease-in-out infinite; }
+  @keyframes fly { 25% { transform: translate(14px,-10px); opacity: .3; } 50% { transform: translate(-6px,-20px); } 75% { transform: translate(-16px,-6px); opacity: .5; } }
   .soon {
     margin-top: 14px; border: 3px dashed var(--line); border-radius: 22px;
     padding: 18px; text-align: center; color: var(--muted); font-weight: 600;
@@ -364,7 +379,18 @@
       <span class="flag">⛳</span>
       <div>
         <h3>Chip &amp; Jump</h3>
-        <p>A golf game! Hit the ball, then run and jump after it to the cup. 16 courses, a daily challenge and a course builder.</p>
+        <p>A golf game! Hit the ball, then run and jump after it to the cup. 78 courses, a daily challenge and a course builder.</p>
+      </div>
+      <span class="play pixel">PLAY ▶</span>
+    </a>
+    <a class="game night" href="lantern-wick.html">
+      <span class="flag">🏮</span>
+      <span class="firefly" style="left:58%;top:30%"></span>
+      <span class="firefly" style="left:70%;top:55%;animation-delay:-2s"></span>
+      <span class="firefly" style="left:40%;top:45%;animation-delay:-3.5s"></span>
+      <div>
+        <h3>Lantern Wick</h3>
+        <p>Guide a paper lantern home through the hills at night before its wick burns out. Catch fireflies to feed the flame!</p>
       </div>
       <span class="play pixel">PLAY ▶</span>
     </a>
@@ -376,7 +402,7 @@
     <h2>❓ How well do you know me?</h2>
     <p class="lead">Read the page, then try my quiz!</p>
     <div id="quiz-box"></div>
-    <div class="score pixel" id="score">ANSWER ALL 10 QUESTIONS!</div>
+    <div class="score pixel" id="score">ANSWER ALL 11 QUESTIONS!</div>
   </section>
 
   <footer class="pixel">MADE BY YIMING WANG · <span id="year"></span><br>THANKS FOR VISITING!</footer>
@@ -417,7 +443,8 @@
     { q: "Which space missions do I love learning about?", a: ["Star Wars", "Apollo", "Pokémon"], right: 1 },
     { q: "What app do I use to make my designs?", a: ["Canva", "Minecraft", "YouTube"], right: 0 },
     { q: "What does a ball python do when it's scared?", a: ["Barks", "Flies away", "Curls into a ball"], right: 2 },
-    { q: "How many courses does Chip & Jump have?", a: ["3", "16", "100"], right: 1 },
+    { q: "How many courses does Chip & Jump have?", a: ["16", "78", "100"], right: 1 },
+    { q: "In Lantern Wick, what feeds the lantern's flame?", a: ["Fireflies", "Water", "Snowballs"], right: 0 },
   ];
   let answered = 0, correct = 0;
   const box = document.getElementById("quiz-box");
@@ -436,7 +463,7 @@
         if (ai === item.right) correct++; else btn.classList.add("wrong");
         answered++;
         if (answered === QUIZ.length) {
-          const msg = correct === QUIZ.length ? "PERFECT! YOU KNOW ME!" : correct >= 7 ? "NICE JOB!" : "READ AGAIN & RETRY!";
+          const msg = correct === QUIZ.length ? "PERFECT! YOU KNOW ME!" : correct >= 8 ? "NICE JOB!" : "READ AGAIN & RETRY!";
           document.getElementById("score").textContent = `SCORE: ${correct} / ${QUIZ.length} · ${msg}`;
           if (correct === QUIZ.length) confetti();
         } else {
