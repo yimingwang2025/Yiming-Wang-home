@@ -20,6 +20,7 @@
     --orange: #ff8a3d;
     --blue: #3fa7ff;
     --purple: #9c6bff;
+    --red: #ff4d6d;
     --hero-top: #1d9e55;
     --hero-bottom: #0e6b38;
     --shadow: 0 8px 0 rgba(19, 40, 28, 0.08), 0 18px 40px -20px rgba(19, 40, 28, 0.35);
@@ -37,6 +38,7 @@
     }
   }
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
     margin: 0;
     font-family: "Baloo 2", system-ui, sans-serif;
@@ -47,6 +49,20 @@
   }
   .pixel { font-family: "Press Start 2P", monospace; letter-spacing: 0.02em; }
 
+  /* ---------- Nav ---------- */
+  nav {
+    position: sticky; top: 0; z-index: 5;
+    background: color-mix(in srgb, var(--hero-bottom) 92%, transparent);
+    backdrop-filter: blur(8px);
+    display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 6px;
+    padding: 10px 16px;
+  }
+  nav a {
+    color: #fff; text-decoration: none; font-weight: 700;
+    padding: 4px 12px; border-radius: 999px;
+  }
+  nav a:hover { background: rgba(255,255,255,0.16); }
+
   /* ---------- Hero ---------- */
   .hero {
     position: relative;
@@ -55,10 +71,10 @@
       linear-gradient(180deg, var(--hero-top), var(--hero-bottom));
     color: #fff;
     text-align: center;
-    padding: 56px 16px 170px;
+    padding: 48px 16px 170px;
     overflow: hidden;
   }
-  .hero::after {           /* wavy grass edge */
+  .hero::after {
     content: "";
     position: absolute; left: 0; right: 0; bottom: -1px; height: 60px;
     background: var(--bg);
@@ -79,10 +95,8 @@
     font-size: 70px; cursor: pointer;
     box-shadow: 0 10px 0 rgba(0,0,0,0.18), inset 0 -6px 0 rgba(0,0,0,0.08);
     animation: bob 3s ease-in-out infinite;
-    transition: transform .2s;
     user-select: none;
   }
-  .avatar:active { transform: scale(0.92); }
   @keyframes bob { 50% { transform: translateY(-10px) rotate(-4deg); } }
 
   .hello { font-size: 0.75rem; color: var(--yellow); margin: 0 0 14px; }
@@ -91,7 +105,7 @@
     font-weight: 800; margin: 0; line-height: 1;
     text-shadow: 0 5px 0 rgba(0,0,0,0.18);
   }
-  .tagline { font-size: 1.25rem; margin: 14px 0 0; opacity: 0.92; }
+  .tagline { font-size: 1.25rem; margin: 14px auto 0; opacity: 0.92; max-width: 560px; }
 
   .snake-lane {
     position: absolute; left: 0; right: 0; bottom: 84px; height: 44px;
@@ -100,59 +114,91 @@
   #snake { position: absolute; top: 0; left: 0; overflow: visible; }
 
   /* ---------- Layout ---------- */
-  .wrap { max-width: 900px; margin: -70px auto 0; padding: 0 16px 64px; position: relative; }
-
+  .wrap { max-width: 920px; margin: -70px auto 0; padding: 0 16px 64px; position: relative; }
   .card {
     background: var(--card); border-radius: 26px; padding: 26px;
     box-shadow: var(--shadow); border: 2px solid var(--line);
   }
   h2 { margin: 0 0 16px; font-size: 1.8rem; line-height: 1.2; display: flex; align-items: center; gap: 10px; }
-  section { margin-top: 28px; }
+  section { margin-top: 32px; scroll-margin-top: 70px; }
+  .lead { margin-top: 0; font-size: 1.15rem; }
 
-  /* ---------- Player card (level / XP) ---------- */
-  .player { display: grid; grid-template-columns: auto 1fr; gap: 22px; align-items: center; }
-  .level {
+  /* ---------- Character card ---------- */
+  .player { display: grid; grid-template-columns: 210px 1fr; gap: 26px; align-items: center; }
+  .badge {
     background: var(--ink); color: var(--lime);
-    border-radius: 20px; padding: 16px 18px; text-align: center; min-width: 120px;
+    border-radius: 22px; padding: 18px; text-align: center;
   }
-  .level small { display: block; font-size: 0.6rem; color: var(--yellow); margin-bottom: 8px; }
-  .level b { font-size: 2.4rem; line-height: 1; }
-  .xp-top { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-weight: 600; }
-  .xp-top span:last-child { color: var(--muted); }
-  .bar {
-    height: 26px; border-radius: 999px; margin: 10px 0 12px;
-    background: var(--line); overflow: hidden; position: relative;
-  }
+  .badge .big { font-size: 64px; line-height: 1.1; }
+  .badge small { display: block; font-size: 0.55rem; color: var(--yellow); margin-top: 10px; line-height: 1.8; }
+  .stats { display: grid; gap: 12px; }
+  .stat-row { display: grid; grid-template-columns: 170px 1fr 34px; align-items: center; gap: 12px; font-weight: 600; }
+  .bar { height: 18px; border-radius: 999px; background: var(--line); overflow: hidden; }
   .bar i {
-    display: block; height: 100%; width: 0;
-    background: repeating-linear-gradient(-45deg, var(--green) 0 14px, #29c86d 14px 28px);
-    border-radius: 999px;
+    display: block; height: 100%; width: 0; border-radius: 999px;
+    background: repeating-linear-gradient(-45deg, var(--c) 0 12px, color-mix(in srgb, var(--c) 80%, #fff) 12px 24px);
     transition: width 1.4s cubic-bezier(.2,.8,.2,1);
   }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip {
-    background: var(--bg); border: 2px solid var(--line);
-    border-radius: 999px; padding: 4px 14px; font-weight: 600;
-  }
+  .stat-row .num { font-size: 0.6rem; color: var(--muted); text-align: right; }
 
-  /* ---------- Favorites ---------- */
-  .faves { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
-  .fave {
+  /* ---------- Tiles ---------- */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+  .tile {
     border-radius: 22px; padding: 18px;
     background: color-mix(in srgb, var(--c) 14%, var(--card));
     border: 2px solid color-mix(in srgb, var(--c) 35%, transparent);
     transition: transform .2s;
   }
-  .fave:hover { transform: translateY(-4px) rotate(-1.5deg); }
-  .fave .emoji { font-size: 2.6rem; line-height: 1; }
-  .fave b { display: block; font-size: 0.85rem; color: var(--muted); font-weight: 600; margin-top: 10px; text-transform: uppercase; letter-spacing: .06em; }
-  .fave span { font-size: 1.35rem; font-weight: 700; }
+  .tile:hover { transform: translateY(-4px) rotate(-1deg); }
+  .tile .emoji { font-size: 2.6rem; line-height: 1; }
+  .tile b { display: block; font-size: 0.8rem; color: var(--muted); font-weight: 700; margin-top: 10px; text-transform: uppercase; letter-spacing: .07em; }
+  .tile h3 { margin: 2px 0 0; font-size: 1.35rem; line-height: 1.2; }
+  .tile p { margin: 6px 0 0; color: var(--muted); font-weight: 500; }
 
-  /* ---------- Games ---------- */
+  /* ---------- Horror games ---------- */
+  .spooky {
+    background: linear-gradient(160deg, #1b1230, #2c1450);
+    color: #f3eaff; border: 2px solid #3d2468;
+  }
+  .spooky h2 { color: #fff; }
+  .spooky .lead { color: #cbb8ee; }
+  .spooky .tile {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.12);
+  }
+  .spooky .tile p, .spooky .tile b { color: #cbb8ee; }
+  .spooky .tile:hover { transform: translateY(-4px) rotate(1deg); }
+  .eyes { animation: blink 4s infinite; display: inline-block; }
+  @keyframes blink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
+
+  /* ---------- Space ---------- */
+  .space {
+    position: relative; overflow: hidden; color: #fff;
+    background:
+      radial-gradient(circle at 15% 25%, #fff 0 1px, transparent 2px),
+      radial-gradient(circle at 70% 15%, #fff 0 1.5px, transparent 2.5px),
+      radial-gradient(circle at 40% 70%, #fff 0 1px, transparent 2px),
+      radial-gradient(circle at 88% 60%, #fff 0 1px, transparent 2px),
+      radial-gradient(circle at 60% 90%, #fff 0 1.5px, transparent 2.5px),
+      radial-gradient(circle at 85% 110%, #3a6bd6 0 120px, transparent 121px),
+      linear-gradient(160deg, #0b1440, #13235e);
+    border: 2px solid #22357a;
+  }
+  .space h2 { color: #fff; }
+  .space p { max-width: min(560px, calc(100% - 80px)); font-size: 1.1rem; }
+  .rocket { position: absolute; right: 30px; top: 26px; font-size: 64px; animation: launch 4s ease-in-out infinite; }
+  @keyframes launch { 50% { transform: translate(6px, -12px) rotate(-6deg); } }
+  .facts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .facts span {
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 999px; padding: 4px 14px; font-weight: 600;
+  }
+
+  /* ---------- Games I made ---------- */
   .game {
     display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 16px;
     text-decoration: none; color: #fff;
-    border-radius: 24px; padding: 26px; min-height: 190px;
+    border-radius: 24px; padding: 26px; min-height: 200px;
     background:
       radial-gradient(circle at 82% 30%, #ffffff 0 7px, transparent 8px),
       radial-gradient(ellipse 60% 40% at 80% 115%, #7fdc6a 0 98%, transparent),
@@ -166,7 +212,7 @@
   .game .flag { position: absolute; right: 24%; top: 22px; font-size: 54px; animation: wave 2s ease-in-out infinite; transform-origin: bottom left; }
   @keyframes wave { 50% { transform: rotate(-8deg); } }
   .game h3 { margin: 0; font-size: 2rem; line-height: 1; text-shadow: 0 3px 0 rgba(0,0,0,0.25); }
-  .game p { margin: 6px 0 0; font-weight: 600; text-shadow: 0 2px 0 rgba(0,0,0,0.2); }
+  .game p { margin: 6px 0 0; font-weight: 600; text-shadow: 0 2px 0 rgba(0,0,0,0.2); max-width: 420px; }
   .play {
     font-size: 0.8rem; background: var(--yellow); color: #3a2a00;
     padding: 14px 18px; border-radius: 14px;
@@ -175,18 +221,30 @@
     white-space: nowrap;
   }
   .game:hover .play { transform: translateY(2px); box-shadow: 0 4px 0 #c99400; }
-
   .soon {
     margin-top: 14px; border: 3px dashed var(--line); border-radius: 22px;
     padding: 18px; text-align: center; color: var(--muted); font-weight: 600;
   }
 
-  /* ---------- Birthday ---------- */
-  .party {
-    display: none; text-align: center; font-weight: 800; font-size: 1.5rem;
-    background: var(--yellow); color: #3a2a00; border-radius: 20px; padding: 12px; margin-bottom: 20px;
+  /* ---------- Quiz ---------- */
+  .q { margin-bottom: 18px; }
+  .q p { font-weight: 700; font-size: 1.15rem; margin: 0 0 8px; }
+  .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .opts button {
+    font: inherit; font-weight: 600; cursor: pointer;
+    background: var(--bg); color: var(--ink);
+    border: 2px solid var(--line); border-radius: 14px; padding: 6px 16px;
+    box-shadow: 0 4px 0 var(--line);
+    transition: transform .1s;
   }
-  .is-birthday .party { display: block; }
+  .opts button:hover:not(:disabled) { transform: translateY(-2px); }
+  .opts button.right { background: var(--green); border-color: var(--green-dark); color: #fff; box-shadow: 0 4px 0 var(--green-dark); }
+  .opts button.wrong { background: var(--red); border-color: #c4304c; color: #fff; box-shadow: 0 4px 0 #c4304c; }
+  .opts button:disabled { cursor: default; }
+  .score {
+    margin-top: 6px; padding: 14px; border-radius: 16px; text-align: center;
+    background: var(--ink); color: var(--lime); font-size: 0.75rem; line-height: 1.8;
+  }
 
   footer { text-align: center; color: var(--muted); margin-top: 48px; font-size: 0.65rem; line-height: 2; }
 
@@ -196,120 +254,147 @@
   }
   @keyframes fall { to { transform: translateY(110vh) rotate(720deg); } }
 
-  @media (max-width: 560px) {
+  @media (max-width: 640px) {
     .player { grid-template-columns: 1fr; }
+    .stat-row { grid-template-columns: 1fr 1.2fr 30px; }
     .game { grid-template-columns: 1fr; }
     .game .flag { right: 12%; }
+    .rocket { font-size: 44px; right: 16px; top: 16px; }
     .float:nth-of-type(3), .float:nth-of-type(4) { display: none; }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
+    html { scroll-behavior: auto; }
   }
 </style>
 </head>
 <body>
 
+<nav>
+  <a href="#about">About</a>
+  <a href="#horror">Horror games</a>
+  <a href="#space">Space</a>
+  <a href="#games">My games</a>
+  <a href="#quiz">Quiz</a>
+</nav>
+
 <header class="hero">
   <span class="float" style="left:8%;top:18%">⭐</span>
   <span class="float" style="left:84%;top:14%;animation-delay:-2s">🎮</span>
   <span class="float" style="left:5%;top:44%;animation-delay:-4s">🍟</span>
-  <span class="float" style="left:88%;top:58%;animation-delay:-1s">🥭</span>
-  <span class="float" style="left:70%;top:34%;animation-delay:-3s;font-size:20px">✨</span>
+  <span class="float" style="left:86%;top:40%;animation-delay:-1s">🥭</span>
+  <span class="float" style="left:70%;top:34%;animation-delay:-3s;font-size:22px">🚀</span>
+  <span class="float" style="left:24%;top:10%;animation-delay:-5s;font-size:22px">👻</span>
 
   <div class="avatar" id="avatar" title="Tap me!">🐍</div>
   <p class="hello pixel">PLAYER 1 READY</p>
   <h1>Yiming Wang</h1>
-  <p class="tagline">Future game developer · snake fan · fry enthusiast</p>
+  <p class="tagline">Future game developer &amp; astronaut · horror game fan · ball python lover</p>
 
   <div class="snake-lane"><svg id="snake" width="1" height="44"></svg></div>
 </header>
 
 <main class="wrap">
 
-  <p class="party">🎉 Today is my birthday! 🎂</p>
-
-  <!-- Player card -->
+  <!-- Character card -->
   <div class="card player">
-    <div class="level">
-      <small class="pixel">LEVEL</small>
-      <b class="pixel" id="age">–</b>
+    <div class="badge">
+      <div class="big">🐍</div>
+      <small class="pixel">CLASS:<br>GAME MAKER</small>
     </div>
-    <div>
-      <div class="xp-top">
-        <span id="xp-title">XP to next level</span>
-        <span id="xp-left">–</span>
-      </div>
-      <div class="bar"><i id="xp"></i></div>
-      <div class="chips">
-        <span class="chip">🎂 Birthday: June 26</span>
-        <span class="chip">💚 Team Green</span>
-        <span class="chip">🕹️ Game maker</span>
-      </div>
+    <div class="stats">
+      <div class="stat-row" style="--c: var(--purple)"><span>👻 Horror bravery</span><div class="bar"><i data-w="95"></i></div><span class="num pixel">95</span></div>
+      <div class="stat-row" style="--c: var(--blue)"><span>🚀 Space knowledge</span><div class="bar"><i data-w="90"></i></div><span class="num pixel">90</span></div>
+      <div class="stat-row" style="--c: var(--green)"><span>🧮 Math &amp; science</span><div class="bar"><i data-w="88"></i></div><span class="num pixel">88</span></div>
+      <div class="stat-row" style="--c: var(--orange)"><span>🎨 Creativity</span><div class="bar"><i data-w="92"></i></div><span class="num pixel">92</span></div>
+      <div class="stat-row" style="--c: var(--yellow)"><span>🍟 Fry power</span><div class="bar"><i data-w="100"></i></div><span class="num pixel">100</span></div>
     </div>
   </div>
 
   <!-- About -->
-  <section class="card">
+  <section id="about" class="card">
     <h2>⭐ About me</h2>
-    <p style="margin-top:0;font-size:1.1rem">I was born on June 26, 2017. I like making games and building cool stuff on the computer!</p>
-    <div class="faves">
-      <div class="fave" style="--c:#1fb45f"><div class="emoji">💚</div><b>Favorite color</b><span>Green</span></div>
-      <div class="fave" style="--c:#ff8a3d"><div class="emoji">🍟🥭</div><b>Favorite food</b><span>Fries or mango</span></div>
-      <div class="fave" style="--c:#a9774a"><div class="emoji">🐍</div><b>Favorite animal</b><span>Ball pythons</span></div>
-      <div class="fave" style="--c:#9c6bff"><div class="emoji">🎮</div><b>When I grow up</b><span>Game developer</span></div>
+    <p class="lead">Hi! I'm Yiming. I love video games, especially spooky Roblox horror games, and one day I want to make my own games for real. I also love space, math, science and building things. When I'm not playing, I like drawing game characters and making digital art in Canva.</p>
+    <div class="grid">
+      <div class="tile" style="--c:#1fb45f"><div class="emoji">💚</div><b>Favorite color</b><h3>Green</h3></div>
+      <div class="tile" style="--c:#ff8a3d"><div class="emoji">🍟🥭</div><b>Favorite food</b><h3>Fries or mango</h3></div>
+      <div class="tile" style="--c:#a9774a"><div class="emoji">🐍</div><b>Favorite animal</b><h3>Ball pythons</h3><p>Calm, curious and they curl up into a ball!</p></div>
+      <div class="tile" style="--c:#9c6bff"><div class="emoji">🎮</div><b>When I grow up</b><h3>Game developer</h3><p>…and maybe an astronaut too.</p></div>
+    </div>
+
+    <h2 style="margin-top:28px">🧠 Things I'm into</h2>
+    <div class="grid">
+      <div class="tile" style="--c:#3fa7ff"><div class="emoji">🔭</div><h3>Space</h3><p>Rockets, planets and the Apollo missions.</p></div>
+      <div class="tile" style="--c:#1fb45f"><div class="emoji">🧪</div><h3>Math &amp; science</h3><p>Solving problems and finding out how the world works.</p></div>
+      <div class="tile" style="--c:#ff8a3d"><div class="emoji">🛠️</div><h3>Engineering</h3><p>Building and designing new things.</p></div>
+      <div class="tile" style="--c:#ff4d6d"><div class="emoji">🎨</div><h3>Art &amp; design</h3><p>Drawing game characters and making designs in Canva.</p></div>
     </div>
   </section>
 
-  <!-- Games -->
-  <section>
-    <h2>🕹️ My games</h2>
+  <!-- Horror games -->
+  <section id="horror" class="card spooky">
+    <h2><span class="eyes">👀</span> My favorite horror games</h2>
+    <p class="lead">These are the Roblox games I play the most. Only read on if you're brave!</p>
+    <div class="grid">
+      <div class="tile">
+        <div class="emoji">🎡</div>
+        <b>By BlushCrunch Studio</b>
+        <h3>Dandy's World</h3>
+        <p>Survive a creepy amusement park! You fix machines, collect research and unlock new toons while the Twisteds hunt you down. Watch out for Twisted Dandy.</p>
+      </div>
+      <div class="tile">
+        <div class="emoji">🍣</div>
+        <b>By Evil Twin Games</b>
+        <h3>Scary Sushi</h3>
+        <p>You go to a job interview to be a chef at Moonlight Sushi… but this is no ordinary restaurant. Yummy food turns into a nightmare!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Space -->
+  <section id="space" class="card space">
+    <span class="rocket">🚀</span>
+    <h2>🌍 Space explorer</h2>
+    <p>I've visited the Kennedy Space Center in Florida lots of times! My favorite thing to learn about is the Apollo missions, when astronauts flew all the way to the Moon.</p>
+    <div class="facts">
+      <span>🌕 Apollo 11 landed on the Moon in 1969</span>
+      <span>👨‍🚀 12 people have walked on the Moon</span>
+      <span>🏗️ The Saturn V rocket is taller than the Statue of Liberty</span>
+    </div>
+  </section>
+
+  <!-- Games I made -->
+  <section id="games">
+    <h2>🕹️ Games I made</h2>
     <a class="game" href="chip-and-jump.html">
       <span class="flag">⛳</span>
       <div>
         <h3>Chip &amp; Jump</h3>
-        <p>A golf game made by me!</p>
+        <p>A golf game! Hit the ball, then run and jump after it to the cup. 16 courses, a daily challenge and a course builder.</p>
       </div>
       <span class="play pixel">PLAY ▶</span>
     </a>
-    <div class="soon">🛠️ More games coming soon…</div>
+    <div class="soon">🛠️ More games coming soon… maybe a horror one 👻</div>
+  </section>
+
+  <!-- Quiz -->
+  <section id="quiz" class="card">
+    <h2>❓ How well do you know me?</h2>
+    <p class="lead">Read the page, then try my quiz!</p>
+    <div id="quiz-box"></div>
+    <div class="score pixel" id="score">ANSWER ALL 5 QUESTIONS!</div>
   </section>
 
   <footer class="pixel">MADE BY YIMING WANG · <span id="year"></span><br>THANKS FOR VISITING!</footer>
 </main>
 
 <script>
-  const BIRTH = { year: 2017, month: 6, day: 26 };
-  const DAY = 86400000;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const y = today.getFullYear();
-  const bday = yr => new Date(yr, BIRTH.month - 1, BIRTH.day);
+  document.getElementById("year").textContent = new Date().getFullYear();
 
-  // Age = level
-  let age = y - BIRTH.year;
-  if (today < bday(y)) age--;
-  document.getElementById("age").textContent = age;
-
-  // XP bar: how far through the year to the next birthday
-  const last = bday(BIRTH.year + age);
-  const next = bday(BIRTH.year + age + 1);
-  const daysLeft = Math.round((next - today) / DAY);
-  const pct = Math.max(3, ((today - last) / (next - last)) * 100);
-  const isBirthday = today.getTime() === last.getTime();
-
-  document.getElementById("xp-title").textContent = `XP to level ${age + 1}`;
-  document.getElementById("xp-left").textContent = isBirthday
-    ? "Level up today! 🎉"
-    : `${daysLeft} day${daysLeft === 1 ? "" : "s"} to go`;
-  requestAnimationFrame(() => setTimeout(() => {
-    document.getElementById("xp").style.width = pct + "%";
-  }, 200));
-
-  if (isBirthday) {
-    document.body.classList.add("is-birthday");
-    setTimeout(confetti, 400);
-  }
-  document.getElementById("year").textContent = y;
+  // Stat bars fill in
+  setTimeout(() => {
+    document.querySelectorAll(".bar i").forEach(b => b.style.width = b.dataset.w + "%");
+  }, 250);
 
   // Confetti
   function confetti() {
@@ -327,6 +412,43 @@
   }
   document.getElementById("avatar").addEventListener("click", confetti);
 
+  // Quiz
+  const QUIZ = [
+    { q: "What is my favorite color?", a: ["Red", "Green", "Blue"], right: 1 },
+    { q: "What is my favorite animal?", a: ["Ball python", "Dog", "Shark"], right: 0 },
+    { q: "Which food do I love?", a: ["Broccoli", "Pizza", "Fries or mango"], right: 2 },
+    { q: "Which space place have I visited lots of times?", a: ["Kennedy Space Center", "The Moon", "Mars"], right: 0 },
+    { q: "Which horror game has the Twisteds in it?", a: ["Scary Sushi", "Dandy's World", "Chip & Jump"], right: 1 },
+  ];
+  let answered = 0, correct = 0;
+  const box = document.getElementById("quiz-box");
+  QUIZ.forEach((item, qi) => {
+    const wrap = document.createElement("div");
+    wrap.className = "q";
+    wrap.innerHTML = `<p>${qi + 1}. ${item.q}</p><div class="opts"></div>`;
+    const opts = wrap.querySelector(".opts");
+    item.a.forEach((text, ai) => {
+      const btn = document.createElement("button");
+      btn.textContent = text;
+      btn.onclick = () => {
+        const buttons = opts.querySelectorAll("button");
+        buttons.forEach(b => b.disabled = true);
+        buttons[item.right].classList.add("right");
+        if (ai === item.right) correct++; else btn.classList.add("wrong");
+        answered++;
+        if (answered === QUIZ.length) {
+          const msg = correct === QUIZ.length ? "PERFECT! YOU KNOW ME!" : correct >= 3 ? "NICE JOB!" : "READ AGAIN & RETRY!";
+          document.getElementById("score").textContent = `SCORE: ${correct} / ${QUIZ.length} · ${msg}`;
+          if (correct === QUIZ.length) confetti();
+        } else {
+          document.getElementById("score").textContent = `SCORE: ${correct} / ${answered}`;
+        }
+      };
+      opts.appendChild(btn);
+    });
+    box.appendChild(wrap);
+  });
+
   // Ball python slithering across the hero
   const svg = document.getElementById("snake");
   const NS = "http://www.w3.org/2000/svg";
@@ -336,7 +458,7 @@
     const c = document.createElementNS(NS, "circle");
     const taper = i > SEGS - 6 ? (SEGS - i) * 1.6 + 2 : 10;
     c.setAttribute("r", taper);
-    c.setAttribute("fill", i % 3 === 0 ? "#3b2414" : "#c99a5b");   // ball python pattern
+    c.setAttribute("fill", i % 3 === 0 ? "#3b2414" : "#c99a5b");
     svg.appendChild(c);
     parts[i] = c;
   }
@@ -357,15 +479,12 @@
     if (x > w + 60) x = -260;
     svg.setAttribute("width", w);
     for (let i = 0; i < SEGS; i++) {
-      const px = x - i * GAP;
-      const py = 22 + Math.sin(t / 260 - i * 0.55) * 8;
-      parts[i].setAttribute("cx", px);
-      parts[i].setAttribute("cy", py);
+      parts[i].setAttribute("cx", x - i * GAP);
+      parts[i].setAttribute("cy", 22 + Math.sin(t / 260 - i * 0.55) * 8);
     }
     const hy = 22 + Math.sin(t / 260 + 0.55) * 8;
-    const flick = Math.sin(t / 90) > 0.3 ? 1 : 0;
     head.setAttribute("transform", `translate(${x + GAP + 2} ${hy})`);
-    head.querySelector(".tongue").style.opacity = flick;
+    head.querySelector(".tongue").style.opacity = Math.sin(t / 90) > 0.3 ? 1 : 0;
     requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
