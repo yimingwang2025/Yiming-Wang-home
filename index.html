@@ -382,7 +382,7 @@
     <h2>❓ How well do you know me?</h2>
     <p class="lead">Read the page, then try my quiz!</p>
     <div id="quiz-box"></div>
-    <div class="score pixel" id="score">ANSWER ALL 4 QUESTIONS!</div>
+    <div class="score pixel" id="score">ANSWER ALL 10 QUESTIONS!</div>
   </section>
 
   <footer class="pixel">MADE BY YIMING WANG · <span id="year"></span><br>THANKS FOR VISITING!</footer>
@@ -418,6 +418,12 @@
     { q: "What is my favorite animal?", a: ["Ball python", "Dog", "Shark"], right: 0 },
     { q: "Which food do I love?", a: ["Broccoli", "Pizza", "Fries or mango"], right: 2 },
     { q: "Which space place have I visited lots of times?", a: ["Kennedy Space Center", "The Moon", "Mars"], right: 0 },
+    { q: "What do I want to be when I grow up?", a: ["Chef", "Game developer", "Firefighter"], right: 1 },
+    { q: "What is the name of the golf game I made?", a: ["Chip & Jump", "Golf Hero", "Hole in One"], right: 0 },
+    { q: "Which space missions do I love learning about?", a: ["Star Wars", "Apollo", "Pokémon"], right: 1 },
+    { q: "What app do I use to make my designs?", a: ["Canva", "Minecraft", "YouTube"], right: 0 },
+    { q: "What does a ball python do when it's scared?", a: ["Barks", "Flies away", "Curls into a ball"], right: 2 },
+    { q: "How many courses does Chip & Jump have?", a: ["3", "16", "100"], right: 1 },
   ];
   let answered = 0, correct = 0;
   const box = document.getElementById("quiz-box");
@@ -436,7 +442,7 @@
         if (ai === item.right) correct++; else btn.classList.add("wrong");
         answered++;
         if (answered === QUIZ.length) {
-          const msg = correct === QUIZ.length ? "PERFECT! YOU KNOW ME!" : correct >= 3 ? "NICE JOB!" : "READ AGAIN & RETRY!";
+          const msg = correct === QUIZ.length ? "PERFECT! YOU KNOW ME!" : correct >= 7 ? "NICE JOB!" : "READ AGAIN & RETRY!";
           document.getElementById("score").textContent = `SCORE: ${correct} / ${QUIZ.length} · ${msg}`;
           if (correct === QUIZ.length) confetti();
         } else {
